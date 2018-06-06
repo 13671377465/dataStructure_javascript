@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>链表</title>
+</head>
+<body>
+    <script>
+        'use strict'
+        class Node {
+            constructor(item) {
+                this.item = item
+                this.next = null
+            }
+        }
+        class Stack {
+            constructor() {
+                this.last = null
+                this.n = 0
+            }
+            isEmpty() {
+                return this.last === null
+            }
+            size() {
+                return this.n
+            }
+            push(nodeItem) {
+                const node = this.last
+                this.last = new Node(nodeItem)
+                this.last.next = node
+                this.n++
+                return this
+            }
+            pop() {
+                const nodeItem = this.last.next
+                this.last.next = this.last
+                this.last = nodeItem
+                this.n--
+                return this
+            }
+            each() {
+                for(let i = this.last; i !== null ; i = i.next) {
+                    console.log(i.item)
+                }
+            }
+        }
+
+        class Queue {
+            constructor() {
+                this.n = 0
+                this.first = null
+                this.last = null
+            }
+            size() {
+                return this.n
+            }
+            isEmpty() {
+                return this.n === 0
+            }
+            enQueue(item) {
+                const oldNode = this.last
+                this.last = new Node(item)
+                if(this.isEmpty()) {
+                    this.first = this.last
+                } else {
+                    oldNode.next = this.last
+                }
+                this.n++
+                return this
+            }
+            unQueue() {
+                const oldNode = this.first
+                this.first = this.first.next
+                oldNode.next = oldNode
+                if(this.isEmpty()) this.last = null
+                this.n--
+                return this
+            }
+            each() {
+                for(let i = this.first; i !== null; i = i.next) {
+                    console.log(i.item)
+                }
+            }
+        }
+        
+    </script>
+</body>
+</html>
