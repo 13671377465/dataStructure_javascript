@@ -9,100 +9,9 @@
 <body>
     <script>
         'use strict'
-        // class Node {
-        //     constructor(key) {
-        //         this.key = key
-        //         this.left = null
-        //         this.right = null
-        //     }
-        // }
-
-        // class BinaryTree {
-        //     constructor() {
-        //         // 根节点
-        //         this.root = null
-        //     }
-        //     // 插入节点的方法(递归)
-        //     insertNode(node, newNode) {
-        //         if (newNode.key < node.key) {
-        //             if (node.left === null) {
-        //                 node.left = newNode
-        //             } else {
-        //                 this.insertNode(node.left, newNode)
-        //             }
-        //         } else if (node.right === null) {
-        //             node.right = newNode
-        //         } else {
-        //             this.insertNode(node.right, newNode)
-        //         }
-        //     }
-        //     // 插入节点的接口
-        //     insert(key) {
-        //         const newNode = new Node(key)
-        //         if (this.root === null) {
-        //             this.root = newNode
-        //         } else {
-        //             this.insertNode(this.root, newNode)
-        //         }
-        //     }
-        //     // 中序排序
-        //     inOrderTraverse(callback) {
-        //         this.inOrderTraverseNode(this.root, callback)
-        //     }
-        //     inOrderTraverseNode(node, callback) {
-        //         if (node !== null && node !== undefined) {
-        //             this.inOrderTraverseNode(node.left, callback)
-        //             callback(node.key)
-        //             this.inOrderTraverseNode(node.right, callback)
-        //         }
-        //     }
-        //     // 先序排序
-        //     preOrderTraverse(callback) {
-        //         this.preOrderTraverseNode(this.root, callback)
-        //     }
-        //     preOrderTraverseNode(node, callback) {
-        //         if (node !== null && node !== undefined) {
-        //             callback(node.key)
-        //             this.preOrderTraverseNode(node.left, callback)
-        //             this.preOrderTraverseNode(node.right, callback)
-        //         }
-        //     }
-
-        //     // 后序排序
-        //     postOrderTraverse(callback) {
-        //         this.postOrderTraverseNode(this.root, callback)
-        //     }
-        //     postOrderTraverseNode(node, callback) {
-        //         if (node !== null && node !== undefined) {
-        //             this.postOrderTraverseNode(node.left, callback)
-        //             this.postOrderTraverseNode(node.right, callback)
-        //             callback(node.key)
-        //         }
-        //     }
-
-        //     // 二叉树查找给定的值
-        //     search(value) {
-        //         return this.searchNode(this.root, value)
-        //     }
-        //     searchNode(node, key) {
-        //         if (node !== null && node !== undefined) {
-        //             if (key < node.key) {
-        //                 return this.searchNode(node.left, key)
-        //             } else if (key > node.key) {
-        //                 return this.searchNode(node.right, key)
-        //             } else {
-        //                 return true
-        //             }
-        //         } else {
-        //             return false
-        //         }
-        //     }
-        // }
-
         class Node {
-            constructor(key, value, n) {
+            constructor(key, n) {
                 this.key = key
-                this.value = value
                 this.left = null
                 this.right = null
                 this.n = n
@@ -115,22 +24,22 @@
             }
 
             allSize() {
-                return size(this.root)
+                return this.size(this.root)
             }
             size(x) {
                 if(x === null) {
                     return 0
                 } else {
-                    return x.n
+                    return ++x.n
                 }
             }
             
-            _getForRoot(x, key) {
+            getForNode(x, key) {
                 if(x !== null && x !== undefined) {
                     if(x.key < key) {
-                        return _getForRoot(x.right, key)
+                        return this.getForNode(x.right, key)
                     } else if(x.key > key) {
-                        return _getForRoot(x.left, key)
+                        return this.getForNode(x.left, key)
                     } else {
                         return true
                     }
@@ -139,14 +48,65 @@
                 }
             }
             get(key) {
-                return _getForRoot(this.root, key)
+                return this.getForNode(this.root, key)
             }
 
-            _insertForRoot(x, key) {
-                
+            insertForNode(x, key) {
+                if(key < x.key) {
+                    if(x.left === null) {
+                        x.left = new Node(key, 0)
+                    } else {
+                        this.insertForNode(x.left, key)
+                        x.left.n++
+                    }
+                } else if(x.right === null) {
+                    x.right = new Node(key, 0)
+                } else {
+                    this.insertForNode(x.right, key)
+                    x.right.n++
+                }
             }
             insert(key) {
-                return _insertForRoot(this.root, key)
+                if(this.root === null) {
+                    const newNode = new Node(key, 0)
+                    this.root = newNode
+                } else {
+                    this.insertForNode(this.root, key)
+                    this.root.n++
+                }
+            }
+
+            preOrderForNode(x, callback) {
+                if(x !== null && x !== undefined) {
+                    callback(x.key)
+                    this.preOrderForNode(x.left, callback)
+                    this.preOrderForNode(x.right, callback)
+                }
+            }
+            preOrder(callback) {
+                return this.preOrderForNode(this.root, callback)
+            }
+
+            postOrderForNode(x, callback) {
+                if(x !== null && x !== undefined) {
+                    this.postOrderForNode(x.left, callback)
+                    this.postOrderForNode(x.right, callback)
+                    callback(x.key)
+                }
+            }
+            postOrder(callback) {
+                return this.postOrderForNode(this.root, callback)
+            }
+
+            inOrderForNode(x, callback) {
+                if(x !== null && x !== undefined) {
+                    this.inOrderForNode(x.left, callback)
+                    callback(x.key)
+                    this.inOrderForNode(x.right, callback)
+                }
+            }
+            inOrder(callback) {
+                return this.inOrderForNode(this.root, callback)
             }
         }
 
@@ -160,15 +120,17 @@
             console.log(key)
         }
 
-        console.log('中序遍历--------------------------')
-        binaryTree.inOrderTraverse(callback)
-        console.log('先序遍历--------------------------')
-        binaryTree.preOrderTraverse(callback)
-        console.log('后序遍历--------------------------')
-        binaryTree.postOrderTraverse(callback)
+        console.log(`二叉树节点数量：${binaryTree.allSize()}`)
 
-        const searchResult1 = binaryTree.search(9)
-        const searchResult2 = binaryTree.search(100)
+        console.log('中序遍历--------------------------')
+        binaryTree.inOrder(callback)
+        console.log('先序遍历--------------------------')
+        binaryTree.preOrder(callback)
+        console.log('后序遍历--------------------------')
+        binaryTree.postOrder(callback)
+
+        const searchResult1 = binaryTree.get(9)
+        const searchResult2 = binaryTree.get(100)
 
         console.log(searchResult1 ? '查询成功' : '查询失败')
         console.log(searchResult2 ? '查询成功' : '查询失败')
