@@ -9,6 +9,14 @@
 <body>
     <script>
         'use strict'
+        const container = document.querySelector('.container')
+        const context = document.querySelector('.context')
+        container.addEventListener('click', function() {
+            console.log('container')
+        })
+        context.addEventListener('click', function(e) {
+            console.log('context')
+        })
         class Node {
             constructor(key, n) {
                 this.key = key

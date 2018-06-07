@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>面向对象</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <script>
+        'use strict'
+
+        /*
+            构造函数模式
+            使用new操作符相当于创建一个新的对象并将构造函数的作用域赋给新对象并给新对象添加属性（this的作用）最后返回新对象
+            可以使用constructor构造函数属性判断实例化的对象是否属于某个类，
+            但是更可靠的instanceof操作符却总是会返回true（因为实例化对象都继承自Object对象）
+            这种模式最大的缺点就在于每个实例化的对象的方法都不同，这意味着每创建一个新对象就会多开辟一份内存空间
+        */
+        function Person(name, age) {
+            this.name = name
+            this.age = age
+            this.introduceMySelf = function() {
+                alert(`我是${this.name},今年${this.age}岁,上${this.level}`)
+            }
+        }
+        function Student(name, age, level) {
+            Person.call(this, name, age)
+            this.level = level
+        }
+
+        var s = new Student('小明', '18', '高三')
+        s.introduceMySelf()
+
+        /*
+            原型模式
+        */
+    </script>
+</body>
+</html>
