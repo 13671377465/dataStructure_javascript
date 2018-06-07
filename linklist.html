@@ -9,7 +9,7 @@
 <body>
     <script>
         'use strict'
-        class Node {
+        class Node { // 节点类
             constructor(item) {
                 this.item = item
                 this.next = null
@@ -85,6 +85,8 @@
             }
         }
         
+        new Stack().push('1').push('2').push('3').pop().each()
+        new Queue().enQueue('1').enQueue('2').enQueue('3').each()
     </script>
 </body>
 </html>
